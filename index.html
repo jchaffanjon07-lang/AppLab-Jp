@@ -359,6 +359,13 @@
   @keyframes foliageGrow{0%,49%{opacity:0;transform:scale(.05)}82%,100%{opacity:1;transform:scale(1)}}
   @keyframes lineGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 }
+
+/* Sécurité d'ouverture mobile V15.3.2 : l'animation ne peut jamais rester en surimpression.
+   En cas de suspension des timers JS par le système, l'animation CSS se termine seule. */
+@media(max-width:860px){
+  .seed-intro{animation:applabIntroFailsafe .01s linear 6.5s forwards;}
+  @keyframes applabIntroFailsafe{to{opacity:0;visibility:hidden;pointer-events:none}}
+}
 @media(prefers-reduced-motion:reduce){.seed-intro{display:none!important}.seed-intro *{animation:none!important}}
 
 </style></head>
@@ -869,13 +876,13 @@ document.getElementById('atelierBtn').addEventListener('click',openAtelier);
 <script>
 (function(){
 'use strict';
-const CURRENT_BUILD=154;
-const CURRENT_VERSION='15.3.1';
+const CURRENT_BUILD=155;
+const CURRENT_VERSION='15.3.2';
 let registration=null, postponed=false, applying=false, mostRecent=null, checking=false;
 let installSeen=false;
 const secure=(location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1');
 const entry=document.createElement('button');
-entry.id='applab-update-entry';entry.type='button';entry.textContent='V15.3.1 · Mises à jour';
+entry.id='applab-update-entry';entry.type='button';entry.textContent='V15.3.2 · Mises à jour';
 entry.setAttribute('aria-label','Vérifier les mises à jour AppLab JP');
 const notice=document.createElement('section'); notice.id='applab-update-notice';
 notice.setAttribute('role','dialog');notice.setAttribute('aria-label','Gestion des mises à jour');notice.setAttribute('aria-hidden','true');
@@ -915,7 +922,7 @@ async function start(){
 }
 entry.addEventListener('click',()=>{postponed=false;if(registration?.waiting){showReady();return;}checkUpdate(true);});
 el('applab-update-close').addEventListener('click',()=>{postponed=true;hide();});
-el('applab-update-later').addEventListener('click',()=>{postponed=true;hide();entry.textContent='V15.3.1 · Mises à jour';entry.dataset.ready='false';});
+el('applab-update-later').addEventListener('click',()=>{postponed=true;hide();entry.textContent='V15.3.2 · Mises à jour';entry.dataset.ready='false';});
 el('applab-update-apply').addEventListener('click',async()=>{
   if(el('applab-update-apply').dataset.mode!=='ready'){await checkUpdate(true);return;}
   if(!registration?.waiting){await checkUpdate(true);return;}

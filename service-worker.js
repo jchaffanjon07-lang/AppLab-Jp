@@ -1,43 +1,81 @@
-/* AppLab JP V15.3.1 — correctif PWA GitHub Pages du 28 octobre 2026.
-   Conserve les ajouts personnels : aucun effacement de localStorage/IndexedDB.
-   L'activation des nouvelles versions demeure volontaire. */
-const VERSION = 'applabjp-shell-v15-3-1-stabilite-20261028';
-const SHELL = ['./index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+/* AppLab JP V15.3.2 — réparation de l'ouverture mobile PWA.
+   L'affichage ne doit jamais attendre l'écriture d'une page de ~12 Mo en Cache Storage.
+   Données personnelles intactes (aucun accès à localStorage ou IndexedDB).
+   Nouvelle version activée volontairement via APPLAB_APPLY_UPDATE. */
+const VERSION = 'applabjp-shell-v15-3-2-demarrage-20261028';
+const SHELL = ['./manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const HOMEPAGE = './index.html';
+
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(VERSION).then(cache => cache.addAll(SHELL)));
-});
-self.addEventListener('activate', event => {
+  // Ne pas bloquer l'installation sur une page HTML volumineuse.
   event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys.filter(k => k.startsWith('applabjp-') && k !== VERSION).map(k => caches.delete(k)));
-    await self.clients.claim();
+    const cache = await caches.open(VERSION);
+    await Promise.allSettled(SHELL.map(path => cache.add(path)));
   })());
 });
-self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'APPLAB_APPLY_UPDATE') event.waitUntil(self.skipWaiting());
+
+self.addEventListener('activate', event => {
+  // Garder temporairement l'ancienne page hors ligne, le temps de charger la nouvelle.
+  event.waitUntil(self.clients.claim());
 });
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'APPLAB_APPLY_UPDATE') {
+    event.waitUntil(self.skipWaiting());
+  }
+});
+
+async function fallbackPage() {
+  // Dernière page utilisable, même si la nouvelle n'a pas encore été mise en cache.
+  const current = await caches.open(VERSION);
+  const fresh = await current.match(HOMEPAGE);
+  if (fresh) return fresh;
+  const keys = (await caches.keys()).filter(k => k.startsWith('applabjp-') && k !== VERSION);
+  for (const key of keys.reverse()) {
+    const cached = await (await caches.open(key)).match(HOMEPAGE);
+    if (cached) return cached;
+  }
+  return new Response('AppLab JP : connexion nécessaire pour terminer cette mise à jour. Réessayez avec Internet.',
+    {status:503, headers:{'Content-Type':'text/plain; charset=utf-8'}});
+}
+
 self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
   if (url.pathname.endsWith('/release.json') || url.pathname.endsWith('/service-worker.js')) return;
+
   if (request.mode === 'navigate') {
     event.respondWith((async () => {
       try {
         const response = await fetch(request);
         if (response.ok) {
-          const cache = await caches.open(VERSION);
-          await cache.put('./index.html', response.clone());
+          // IMPORTANT : on répond immédiatement au navigateur. Ne jamais attendre cache.put().
+          const copy = response.clone();
+          event.waitUntil((async () => {
+            try {
+              const cache = await caches.open(VERSION);
+              const existing = await cache.match(HOMEPAGE);
+              if (!existing) {
+                await cache.put(HOMEPAGE, copy);
+                // Le nouveau shell est sûr; libérer les anciens caches devenus inutiles.
+                const keys = await caches.keys();
+                await Promise.all(keys.filter(k => k.startsWith('applabjp-') && k !== VERSION)
+                  .map(k => caches.delete(k)));
+              }
+            } catch (e) { /* Le cache peut être limité ; ne pas bloquer l'ouverture. */ }
+          })());
         }
         return response;
       } catch (e) {
-        return (await caches.match('./index.html')) || Response.error();
+        return fallbackPage();
       }
     })());
     return;
   }
-  if (SHELL.some(path => path !== './' && url.pathname.endsWith(path.slice(1)))) {
+
+  if (SHELL.some(path => url.pathname.endsWith(path.slice(1)))) {
     event.respondWith((async () => {
       const cache = await caches.open(VERSION);
       return (await cache.match(request)) || fetch(request);

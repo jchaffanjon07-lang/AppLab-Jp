@@ -1,14 +1,15 @@
 {
   "application": "AppLab JP",
-  "version": "15.3.1",
-  "build": 154,
+  "version": "15.3.2",
+  "build": 155,
   "published": "2026-10-28",
-  "title": "V15.3.1 — Correctif de stabilité au retour sur mobile",
+  "title": "V15.3.2 — Fiabilisation du démarrage de la PWA sur téléphone",
   "notes": [
-    "Corrige un blocage possible de l’animation graine → arbre après interruption de l’ouverture ou retour depuis le multitâche",
-    "Évite le double téléchargement de la page d’accueil pendant la mise en cache PWA",
-    "Conserve la spirale mobile A, les quatre applications officielles, les logos, le filigrane et la présentation ordinateur",
-    "Ne supprime pas les applications personnelles ni leurs préférences"
+    "Ouverture non bloquée par la mise en cache de la grande page HTML",
+    "Filet de sécurité automatique contre un écran de chargement bloqué",
+    "Conserve la spirale mobile A et l’animation de croissance de l’arbre",
+    "Quatre applications officielles, logos, filigrane et interface PC inchangés",
+    "Aucun effacement des données personnelles, activation volontaire des mises à jour"
   ],
-  "instructions": "Pour activer sur les PWA déjà installées, remplacer index.html, service-worker.js et release.json à la racine du dépôt GitHub Pages. Attendre le déploiement, puis déclencher Mises à jour dans l’application. Ne pas désinstaller et ne pas effacer les données du site."
+  "instructions": "Importer index.html, service-worker.js et release.json dans la racine du dépôt GitHub Pages existant. Ne pas effacer les données du site ; activer la mise à jour depuis la PWA lorsque proposée."
 }
