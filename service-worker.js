@@ -1,8 +1,8 @@
-/* AppLab JP V15.3 — correctif PWA GitHub Pages du 28 octobre 2026.
+/* AppLab JP V15.3.1 — correctif PWA GitHub Pages du 28 octobre 2026.
    Conserve les ajouts personnels : aucun effacement de localStorage/IndexedDB.
    L'activation des nouvelles versions demeure volontaire. */
-const VERSION = 'applabjp-shell-v15-3-mobile-arbre-20261028';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const VERSION = 'applabjp-shell-v15-3-1-stabilite-20261028';
+const SHELL = ['./index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(VERSION).then(cache => cache.addAll(SHELL)));
 });

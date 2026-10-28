@@ -869,13 +869,13 @@ document.getElementById('atelierBtn').addEventListener('click',openAtelier);
 <script>
 (function(){
 'use strict';
-const CURRENT_BUILD=153;
-const CURRENT_VERSION='15.3.0';
+const CURRENT_BUILD=154;
+const CURRENT_VERSION='15.3.1';
 let registration=null, postponed=false, applying=false, mostRecent=null, checking=false;
 let installSeen=false;
 const secure=(location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1');
 const entry=document.createElement('button');
-entry.id='applab-update-entry';entry.type='button';entry.textContent='V15.3 · Mises à jour';
+entry.id='applab-update-entry';entry.type='button';entry.textContent='V15.3.1 · Mises à jour';
 entry.setAttribute('aria-label','Vérifier les mises à jour AppLab JP');
 const notice=document.createElement('section'); notice.id='applab-update-notice';
 notice.setAttribute('role','dialog');notice.setAttribute('aria-label','Gestion des mises à jour');notice.setAttribute('aria-hidden','true');
@@ -915,7 +915,7 @@ async function start(){
 }
 entry.addEventListener('click',()=>{postponed=false;if(registration?.waiting){showReady();return;}checkUpdate(true);});
 el('applab-update-close').addEventListener('click',()=>{postponed=true;hide();});
-el('applab-update-later').addEventListener('click',()=>{postponed=true;hide();entry.textContent='V15.3 · Mises à jour';entry.dataset.ready='false';});
+el('applab-update-later').addEventListener('click',()=>{postponed=true;hide();entry.textContent='V15.3.1 · Mises à jour';entry.dataset.ready='false';});
 el('applab-update-apply').addEventListener('click',async()=>{
   if(el('applab-update-apply').dataset.mode!=='ready'){await checkUpdate(true);return;}
   if(!registration?.waiting){await checkUpdate(true);return;}
@@ -969,7 +969,16 @@ if(!mq.matches||reduced.matches){intro.remove();return;}
 skip.addEventListener('click',end);
 [['La graine s’éveille…',600],['Une jeune pousse grandit…',1500],['Les branches se déploient…',2450],['L’arbre est devenu adulte',3430]].forEach(([t,delay])=>timers.push(setTimeout(()=>{if(!dismissed)stage.textContent=t;},delay)));
 timers.push(setTimeout(end,4100));
-window.addEventListener('pagehide',()=>timers.forEach(clearTimeout),{once:true});
+// Un retour depuis le multitâche mobile peut restaurer la page (bfcache).
+// Ne jamais suspendre le compte à rebours en laissant l'écran d'ouverture affiché.
+function finishImmediately(){
+  timers.forEach(clearTimeout);
+  dismissed=true;
+  if(intro.isConnected)intro.remove();
+}
+window.addEventListener('pagehide',finishImmediately);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)finishImmediately();});
+window.addEventListener('pageshow',e=>{if(e.persisted)finishImmediately();});
 })();
 </script>
 

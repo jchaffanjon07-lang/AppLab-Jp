@@ -1,16 +1,14 @@
 {
   "application": "AppLab JP",
-  "version": "15.3.0",
-  "build": 153,
+  "version": "15.3.1",
+  "build": 154,
   "published": "2026-10-28",
-  "title": "V15.3 — Spirale mobile A et ouverture animée de la graine à l’arbre",
+  "title": "V15.3.1 — Correctif de stabilité au retour sur mobile",
   "notes": [
-    "Adaptation du rendu mobile à la spirale A validée",
-    "Animation d’ouverture mobile : graine → jeune pousse → arbre adulte (environ 4 secondes, bouton Passer)",
-    "Barre de navigation mobile : Accueil, Atelier, Mises à jour, Menu",
-    "Affichage ordinateur et spirale desktop inchangés",
-    "Quatre applications officielles inchangées : NOMAD PAGE, TERAPAGE, SKILLSPAGE et AUTO PAGE",
-    "Données et applications personnelles, logos officiels, filigrane ARTI.Lab et mécanisme de mise à jour préservés"
+    "Corrige un blocage possible de l’animation graine → arbre après interruption de l’ouverture ou retour depuis le multitâche",
+    "Évite le double téléchargement de la page d’accueil pendant la mise en cache PWA",
+    "Conserve la spirale mobile A, les quatre applications officielles, les logos, le filigrane et la présentation ordinateur",
+    "Ne supprime pas les applications personnelles ni leurs préférences"
   ],
-  "instructions": "Publier à la racine du dépôt GitHub Pages : index.html, service-worker.js et release.json. Conserver à la même adresse manifest.webmanifest, icon-192.png et icon-512.png. Ne pas désinstaller la PWA; utiliser le bouton Mises à jour et activer lorsque la V15.3 est prête."
+  "instructions": "Pour activer sur les PWA déjà installées, remplacer index.html, service-worker.js et release.json à la racine du dépôt GitHub Pages. Attendre le déploiement, puis déclencher Mises à jour dans l’application. Ne pas désinstaller et ne pas effacer les données du site."
 }
