@@ -1,14 +1,13 @@
 {
   "application": "AppLab JP",
-  "version": "15.1.0",
-  "build": 151,
-  "published": "2026-10-27",
-  "title": "V15.1 — Spirale agrandie et installation PWA améliorée",
+  "version": "15.2.0",
+  "build": 152,
+  "published": "2026-10-28",
+  "title": "V15.2 — Test du système de mises à jour PWA",
   "notes": [
-    "Retrait des menus Contact et Proposer une application",
-    "Spirale plus grande et logos plus visibles sur ordinateur",
-    "Présentation mobile préservée",
-    "Assistant d’installation PWA accessible même sans invitation native"
+    "MAQUETTE LAB retirée du catalogue officiel et de la spirale",
+    "Quatre applications conservées : NOMAD PAGE, TERAPAGE, SKILLSPAGE et AUTO PAGE",
+    "Aucune modification des applications personnelles ou de leurs paramètres"
   ],
-  "instructions": "Pour publier : remplacer tous les fichiers à la racine du même dépôt GitHub Pages. Pour une future nouvelle version : modifier version, build, release.json et la constante VERSION du service-worker, puis republier. Préserver les clés de stockage local."
+  "instructions": "Publier les fichiers de cette archive dans le même dépôt GitHub Pages, à la racine. NE PAS modifier le nom du dépôt ni le start_url du manifeste. Les PWA installées pourront détecter cette nouvelle version via le bouton Mises à jour et demander activation."
 }
