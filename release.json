@@ -1,0 +1,14 @@
+{
+  "application": "AppLab JP",
+  "version": "15.1.0",
+  "build": 151,
+  "published": "2026-10-27",
+  "title": "V15.1 — Spirale agrandie et installation PWA améliorée",
+  "notes": [
+    "Retrait des menus Contact et Proposer une application",
+    "Spirale plus grande et logos plus visibles sur ordinateur",
+    "Présentation mobile préservée",
+    "Assistant d’installation PWA accessible même sans invitation native"
+  ],
+  "instructions": "Pour publier : remplacer tous les fichiers à la racine du même dépôt GitHub Pages. Pour une future nouvelle version : modifier version, build, release.json et la constante VERSION du service-worker, puis republier. Préserver les clés de stockage local."
+}

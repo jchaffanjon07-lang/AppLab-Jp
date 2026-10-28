@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "AppLab JP — Les outils numériques du Jardinier Paysagiste",
+  "short_name": "AppLab JP",
+  "description": "Portail des applications métiers des Coteries jardiniers paysagistes.",
+  "lang": "fr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#142f43",
+  "theme_color": "#142f43",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
