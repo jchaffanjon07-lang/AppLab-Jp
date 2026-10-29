@@ -1,8 +1,8 @@
-/* AppLab JP V15.3.2 — réparation de l'ouverture mobile PWA.
+/* AppLab JP V15.4 — réparation de l'ouverture mobile PWA.
    L'affichage ne doit jamais attendre l'écriture d'une page de ~12 Mo en Cache Storage.
    Données personnelles intactes (aucun accès à localStorage ou IndexedDB).
    Nouvelle version activée volontairement via APPLAB_APPLY_UPDATE. */
-const VERSION = 'applabjp-shell-v15-3-2-demarrage-20261028';
+const VERSION = 'applabjp-shell-v15-4-mini-pelle-20261029';
 const SHELL = ['./manifest.webmanifest', './icon-192.png', './icon-512.png'];
 const HOMEPAGE = './index.html';
 

@@ -1,15 +1,15 @@
 {
   "application": "AppLab JP",
-  "version": "15.3.2",
-  "build": 155,
-  "published": "2026-10-28",
-  "title": "V15.3.2 — Fiabilisation du démarrage de la PWA sur téléphone",
+  "version": "15.4.0",
+  "build": 156,
+  "published": "2026-10-29",
+  "title": "V15.4 — Mini-pelle animée après 2 minutes d’inactivité",
   "notes": [
-    "Ouverture non bloquée par la mise en cache de la grande page HTML",
-    "Filet de sécurité automatique contre un écran de chargement bloqué",
-    "Conserve la spirale mobile A et l’animation de croissance de l’arbre",
-    "Quatre applications officielles, logos, filigrane et interface PC inchangés",
-    "Aucun effacement des données personnelles, activation volontaire des mises à jour"
+    "Après 120 secondes sans action, une mini-pelle jaune entre dans le décor et simule un terrassement sur les logos officiels visibles",
+    "Creusement, mouvements du bras, poussière et trous temporaires : effets exclusivement graphiques, sans toucher aux vrais logos",
+    "Tout clic, toucher, déplacement de souris ou défilement arrête immédiatement l’animation",
+    "Animation suspendue en arrière-plan et désactivée pour les préférences de réduction des mouvements",
+    "Spirales, quatre applications officielles, ouverture graine → arbre, Atelier, données et mises à jour PWA préservés"
   ],
-  "instructions": "Importer index.html, service-worker.js et release.json dans la racine du dépôt GitHub Pages existant. Ne pas effacer les données du site ; activer la mise à jour depuis la PWA lorsque proposée."
+  "instructions": "Remplacer à la racine du même dépôt GitHub Pages index.html, service-worker.js et release.json. Vérifier Actions, puis activer la mise à jour V15.4 depuis la PWA installée. Ne pas désinstaller ou effacer les données du site."
 }

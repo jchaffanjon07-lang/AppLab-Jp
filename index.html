@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="theme-color" content="#142f43"><meta name="description" content="AppLab JP, les outils numériques du Jardinier Paysagiste."><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AppLab JP — V15.3 · Spirale mobile A et ouverture arbre</title>
+<title>AppLab JP — V15.4 · Spirale mobile, arbre et mini-pelle</title>
 <style>
 :root{--gold:#e4b95c;--navy:#122b3f;--brand-shadow:0 6px 16px rgba(0,0,0,.28)}
 *{box-sizing:border-box}html,body{margin:0;height:100%;font-family:Georgia,"Times New Roman",serif;color:#fff;background:#0f1720}body{overflow:hidden}
@@ -367,6 +367,36 @@
   @keyframes applabIntroFailsafe{to{opacity:0;visibility:hidden;pointer-events:none}}
 }
 @media(prefers-reduced-motion:reduce){.seed-intro{display:none!important}.seed-intro *{animation:none!important}}
+
+/* AppLab JP V15.4 — animation de chantier inactive, purement décorative. */
+#applab-idle-site{position:fixed;inset:0;z-index:56;pointer-events:none;overflow:hidden;contain:layout style;}
+#applab-idle-site[hidden]{display:none!important}
+.applab-digger{position:absolute;width:clamp(165px,19vw,238px);height:auto;left:-280px;top:0;z-index:2;will-change:left,top;transition:left 1.35s cubic-bezier(.3,.8,.22,1),top 1.35s cubic-bezier(.3,.8,.22,1);filter:drop-shadow(0 12px 9px rgba(3,16,21,.48));}
+.applab-digger svg{display:block;width:100%;height:auto;overflow:visible}
+.applab-digger.reversed svg{transform:scaleX(-1)}
+.applab-digger .dig-boom{transform-origin:126px 85px;transform-box:view-box;}
+.applab-digger .dig-stick{transform-origin:176px 42px;transform-box:view-box;}
+.applab-digger .dig-bucket{transform-origin:240px 113px;transform-box:view-box;}
+.applab-digger .dig-track-tread{stroke-dasharray:10 6;animation:applabTrack 0.42s linear infinite}
+.applab-digger .dig-body{animation:applabCab 0.48s ease-in-out infinite alternate;transform-origin:95px 117px;transform-box:view-box}
+.applab-digger.is-digging .dig-boom{animation:applabBoom 1.08s ease-in-out infinite alternate}
+.applab-digger.is-digging .dig-stick{animation:applabStick 1.08s ease-in-out infinite alternate}
+.applab-digger.is-digging .dig-bucket{animation:applabBucket .65s ease-in-out infinite alternate}
+.applab-digger:not(.is-digging) .dig-track-tread{animation-play-state:paused}
+.applab-excavated{position:absolute;pointer-events:none;transform:translate(-50%,-50%) scale(.5);opacity:0;z-index:1;border-radius:50%;background:radial-gradient(ellipse at 51% 48%,rgba(14,14,10,.9) 0 29%,rgba(80,45,23,.95) 31% 48%,rgba(166,102,48,.9) 53%,rgba(202,146,67,.76) 65%,transparent 73%);box-shadow:inset 2px -6px 8px rgba(10,17,13,.5),0 0 0 3px rgba(150,99,44,.25);transition:opacity .24s ease,transform .3s ease;}
+.applab-excavated:before,.applab-excavated:after{content:"";position:absolute;inset:-25%;border-radius:50%;opacity:0;pointer-events:none;background:radial-gradient(circle at 18% 23%,#b78a4a 0 2%,transparent 3%),radial-gradient(circle at 73% 20%,#a97334 0 3%,transparent 4%),radial-gradient(circle at 86% 61%,#d1a55d 0 2.5%,transparent 3.4%),radial-gradient(circle at 31% 84%,#885d35 0 3%,transparent 4%),radial-gradient(circle at 61% 91%,#e0ae56 0 3%,transparent 3.8%)}
+.applab-excavated.is-dug{opacity:.94;transform:translate(-50%,-50%) scale(1)}
+.applab-excavated.is-dug:before{animation:applabEarth .8s ease-out 2 forwards}
+.applab-excavated.is-dug:after{animation:applabEarth 1s .18s ease-out 1 forwards}
+.applab-excavated.is-fading{opacity:0;transform:translate(-50%,-50%) scale(.3)}
+@keyframes applabTrack{to{stroke-dashoffset:-16}}
+@keyframes applabCab{to{transform:translateY(-1.6px)}}
+@keyframes applabBoom{0%{transform:rotate(-10deg)}100%{transform:rotate(12deg)}}
+@keyframes applabStick{0%{transform:rotate(9deg)}100%{transform:rotate(-13deg)}}
+@keyframes applabBucket{to{transform:rotate(25deg)}}
+@keyframes applabEarth{0%{transform:scale(.25);opacity:0}35%{opacity:1}100%{transform:scale(1.7);opacity:0}}
+@media(max-width:860px){.applab-digger{width:clamp(145px,43vw,190px)}}
+@media(prefers-reduced-motion:reduce){#applab-idle-site{display:none!important}}
 
 </style></head>
 <body>
@@ -876,13 +906,13 @@ document.getElementById('atelierBtn').addEventListener('click',openAtelier);
 <script>
 (function(){
 'use strict';
-const CURRENT_BUILD=155;
-const CURRENT_VERSION='15.3.2';
+const CURRENT_BUILD=156;
+const CURRENT_VERSION='15.4.0';
 let registration=null, postponed=false, applying=false, mostRecent=null, checking=false;
 let installSeen=false;
 const secure=(location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1');
 const entry=document.createElement('button');
-entry.id='applab-update-entry';entry.type='button';entry.textContent='V15.3.2 · Mises à jour';
+entry.id='applab-update-entry';entry.type='button';entry.textContent='V15.4 · Mises à jour';
 entry.setAttribute('aria-label','Vérifier les mises à jour AppLab JP');
 const notice=document.createElement('section'); notice.id='applab-update-notice';
 notice.setAttribute('role','dialog');notice.setAttribute('aria-label','Gestion des mises à jour');notice.setAttribute('aria-hidden','true');
@@ -922,7 +952,7 @@ async function start(){
 }
 entry.addEventListener('click',()=>{postponed=false;if(registration?.waiting){showReady();return;}checkUpdate(true);});
 el('applab-update-close').addEventListener('click',()=>{postponed=true;hide();});
-el('applab-update-later').addEventListener('click',()=>{postponed=true;hide();entry.textContent='V15.3.2 · Mises à jour';entry.dataset.ready='false';});
+el('applab-update-later').addEventListener('click',()=>{postponed=true;hide();entry.textContent='V15.4 · Mises à jour';entry.dataset.ready='false';});
 el('applab-update-apply').addEventListener('click',async()=>{
   if(el('applab-update-apply').dataset.mode!=='ready'){await checkUpdate(true);return;}
   if(!registration?.waiting){await checkUpdate(true);return;}
@@ -989,4 +1019,139 @@ window.addEventListener('pageshow',e=>{if(e.persisted)finishImmediately();});
 })();
 </script>
 
+<script>
+/* AppLab JP V15.4 — « Le chantier surprise » après 120 secondes sans interaction.
+   Animation DOM/SVG uniquement, sans toucher aux liens, images ni données stockées. */
+(function(){
+'use strict';
+const IDLE_MS=120000;
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+if(reduce.matches)return;
+const stage=document.createElement('div');
+stage.id='applab-idle-site';stage.hidden=true;stage.setAttribute('aria-hidden','true');
+stage.innerHTML=`<div class="applab-digger" id="applab-digger">
+<svg viewBox="0 0 280 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="digger-yellow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe26a"/><stop offset=".42" stop-color="#ffc137"/><stop offset=".82" stop-color="#d88b12"/><stop offset="1" stop-color="#935b0c"/></linearGradient>
+<linearGradient id="digger-steel" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#666d68"/><stop offset="1" stop-color="#202a2a"/></linearGradient>
+<linearGradient id="digger-window" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b9d6cd" stop-opacity=".96"/><stop offset="1" stop-color="#173d4e"/></linearGradient>
+</defs>
+<!-- Train de roulement et chenilles -->
+<g class="dig-tracks">
+<rect x="22" y="121" width="139" height="34" rx="17" fill="#242d2f" stroke="#a7a297" stroke-width="3"/>
+<rect x="29" y="127" width="123" height="22" rx="11" fill="#464b47" stroke="#181e1f" stroke-width="2"/>
+<circle cx="47" cy="138" r="10" fill="#a0a198" stroke="#303a39" stroke-width="3"/><circle cx="131" cy="138" r="10" fill="#a0a198" stroke="#303a39" stroke-width="3"/>
+<circle cx="70" cy="139" r="6" fill="#757d79"/><circle cx="93" cy="139" r="6" fill="#757d79"/><circle cx="113" cy="139" r="6" fill="#757d79"/>
+<rect x="22" y="121" width="139" height="34" rx="17" fill="none" stroke="#101718" stroke-width="7" class="dig-track-tread"/>
+<path d="M64 116H145" stroke="#454c47" stroke-width="12" stroke-linecap="round"/>
+</g>
+<!-- Corps cabine, capot et vitres -->
+<g class="dig-body">
+<path d="M29 91 Q30 78 48 75 L112 69 L140 83 L148 121 H35Z" fill="url(#digger-yellow)" stroke="#78491b" stroke-width="3"/>
+<path d="M55 76 L68 35 Q71 29 81 29 L113 30 Q123 33 128 46 L139 84 L113 91 L51 90Z" fill="url(#digger-yellow)" stroke="#6b451e" stroke-width="3"/>
+<path d="M80 37 L110 37 Q114 37 118 48 L125 75 L69 77Z" fill="url(#digger-window)" stroke="#323c3c" stroke-width="5"/>
+<path d="M91 37L80 75" stroke="#d4f1ea" stroke-width="3" opacity=".55"/>
+<path d="M118 45L134 84" stroke="#31383a" stroke-width="5"/>
+<rect x="33" y="96" width="37" height="20" rx="4" fill="#e9a21e" stroke="#825612" stroke-width="2"/>
+<path d="M37 100h27 M37 106h27 M37 111h27" stroke="#b87920" stroke-width="2"/>
+<rect x="41" y="112" width="13" height="6" rx="2" fill="#f7e2a6"/><path d="M67 114H130" stroke="#ffea87" stroke-width="4"/>
+<path d="M146 97L164 111L157 123H140" fill="#313637" stroke="#171d1b" stroke-width="3"/>
+<path d="M65 83H120" stroke="#6c4d18" stroke-width="3" opacity=".45"/>
+<text x="70" y="107" font-size="12" font-family="Arial,sans-serif" fill="#263a3c" font-weight="900">JP</text>
+</g>
+<!-- Flèche hydraulique et bras articulé -->
+<g class="dig-boom">
+<path d="M122 83 L160 27 Q165 19 173 25 L184 39 L149 96 L136 104Z" fill="url(#digger-yellow)" stroke="#8b5d14" stroke-width="5" stroke-linejoin="round"/>
+<path d="M128 83L161 51" stroke="#303b3c" stroke-width="7" stroke-linecap="round"/>
+<path d="M152 56L167 40" stroke="#dae1d9" stroke-width="4" stroke-linecap="round"/>
+<circle cx="127" cy="85" r="9" fill="#535f5c" stroke="#e6b446" stroke-width="4"/>
+<g class="dig-stick">
+<path d="M173 38 L225 71 L245 101 L232 113 L214 84 L162 55Z" fill="url(#digger-yellow)" stroke="#966116" stroke-width="5" stroke-linejoin="round"/>
+<path d="M178 43L218 82" stroke="#343d3f" stroke-width="6" stroke-linecap="round"/>
+<path d="M183 49L204 67" stroke="#dce0d9" stroke-width="4"/>
+<circle cx="174" cy="42" r="7" fill="#546563" stroke="#fee080" stroke-width="3"/>
+<g class="dig-bucket">
+<path d="M234 108 Q260 96 263 110 L252 137 Q247 144 239 138 L223 126L229 117Z" fill="url(#digger-steel)" stroke="#111a1b" stroke-width="4"/>
+<path d="M242 132L236 144 M250 135L246 146 M257 126L259 136" fill="none" stroke="#5d6763" stroke-width="5" stroke-linecap="round"/>
+<circle cx="235" cy="113" r="5" fill="#d8d9c8" stroke="#566263" stroke-width="2"/>
+</g></g></g>
+</svg></div>`;
+document.body.appendChild(stage);
+const machine=stage.querySelector('.applab-digger');
+let idleTimer=null, active=false, generation=0, recentMotion=0;
+function schedule(){clearTimeout(idleTimer);if(document.hidden||reduce.matches)return;idleTimer=setTimeout(start,IDLE_MS);}
+function stop(){generation++;active=false;machine.classList.remove('is-digging');stage.replaceChildren(machine);stage.hidden=true;schedule();}
+function activity(){if(active){stop();return;}schedule();}
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+function isCurrent(g){return active&&generation===g&&!document.hidden&&!reduce.matches;}
+function visibleLogos(){
+ return [...document.querySelectorAll('.spiral-layer .app-node.official-logo')]
+ .filter(n=>!n.classList.contains('add') && n.getClientRects().length)
+ .filter(n=>{const r=n.getBoundingClientRect();return r.width>25&&r.height>25&&r.bottom>10&&r.top<innerHeight-10&&r.right>10&&r.left<innerWidth-10;});
+}
+function approach(node){
+ const r=node.getBoundingClientRect(),s=machine.getBoundingClientRect().width/280;
+ const centerX=r.left+r.width*.5;
+ const reversed=centerX < innerWidth*.47;
+ machine.classList.toggle('reversed',reversed);
+ const x=centerX-(reversed?36:244)*s;
+ const y=r.top+r.height*.5-119*s;
+ machine.style.left=`${Math.round(x)}px`;machine.style.top=`${Math.round(Math.max(-15,Math.min(y,innerHeight-110*s)))}px`;
+ return r;
+}
+function pit(r){
+ const p=document.createElement('div');p.className='applab-excavated';
+ const d=Math.min(94,Math.max(44,r.width*.72));
+ p.style.width=d+'px';p.style.height=Math.round(d*.79)+'px';
+ p.style.left=(r.left+r.width*.5)+'px';p.style.top=(r.top+r.height*.5)+'px';
+ stage.appendChild(p);
+ requestAnimationFrame(()=>p.classList.add('is-dug'));
+ return p;
+}
+async function start(){
+ clearTimeout(idleTimer);
+ if(active||reduce.matches||document.hidden||document.querySelector('#applabSeedIntro:not(.intro-out)')?.getBoundingClientRect().height>0){schedule();return;}
+ const targets=visibleLogos();if(!targets.length){schedule();return;}
+ active=true;const g=++generation;stage.hidden=false;
+ const w=machine.getBoundingClientRect().width || 190;
+ machine.style.transition='none';machine.style.left=(innerWidth+30)+'px';machine.style.top=(innerHeight*.32)+'px';
+ void machine.offsetWidth;machine.style.transition='';
+ // Descend la spirale par les logos actuellement visibles, sans faire défiler la page.
+ for(const node of targets){
+  if(!isCurrent(g))return;
+  const r=approach(node);
+  await sleep(1530);if(!isCurrent(g))return;
+  machine.classList.add('is-digging');
+  await sleep(350);if(!isCurrent(g))return;
+  const impact=pit(r);
+  await sleep(1550);if(!isCurrent(g))return;
+  impact.classList.add('is-fading');machine.classList.remove('is-digging');
+  await sleep(530);if(!isCurrent(g))return;
+  impact.remove();
+ }
+ if(!isCurrent(g))return;
+ machine.style.left=(innerWidth+w+40)+'px';
+ await sleep(1500);if(isCurrent(g))stop();
+}
+let lastX=null,lastY=null;
+// L'écoute tactile, la souris, le clavier ou un défilement interrompent le chantier.
+document.addEventListener('pointerdown',activity,{passive:true,capture:true});
+document.addEventListener('keydown',activity,{capture:true});
+document.addEventListener('wheel',activity,{passive:true});
+document.addEventListener('touchstart',activity,{passive:true});
+document.addEventListener('pointermove',e=>{
+ const now=Date.now();if(now-recentMotion<350)return;
+ if(lastX!==null&&Math.abs(e.clientX-lastX)+Math.abs(e.clientY-lastY)<5)return;
+ lastX=e.clientX;lastY=e.clientY;recentMotion=now;activity();
+},{passive:true});
+window.addEventListener('scroll',activity,{passive:true});
+window.addEventListener('resize',activity,{passive:true});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){clearTimeout(idleTimer);if(active)stop();}else schedule();});
+reduce.addEventListener?.('change',()=>{if(active)stop();else schedule();});
+schedule();
+// Point d'essai facultatif accessible en console, sans bouton supplémentaire dans l'interface.
+window.AppLabJPExcavator={preview(){if(active)stop();clearTimeout(idleTimer);start();},stop,delay:IDLE_MS};
+})();
+
+</script>
 </body></html>
